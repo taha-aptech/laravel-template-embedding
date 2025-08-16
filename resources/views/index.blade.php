@@ -2,6 +2,12 @@
 
 @section('content')
 
+@if(session('success'))
+<script>
+    alert("{{ session('success') }}");
+</script>
+@endif
+
 
 <main class="main">
 
@@ -829,39 +835,47 @@
           <div class="col-lg-4 reservation-img" style="background-image: url(assets/img/reservation.jpg);"></div>
 
           <div class="col-lg-8 d-flex align-items-center reservation-form-bg" data-aos="fade-up" data-aos-delay="200">
-            <form action="forms/book-a-table.php" method="post" role="form" class="php-email-form">
+            <form action="{{ route('booking.store') }}" method="POST" class="php-email-form">
+              @csrf
               <div class="row gy-4">
-                <div class="col-lg-4 col-md-6">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required="">
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required="">
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <input type="text" class="form-control" name="phone" id="phone" placeholder="Your Phone" required="">
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <input type="date" name="date" class="form-control" id="date" placeholder="Date" required="">
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <input type="time" class="form-control" name="time" id="time" placeholder="Time" required="">
-                </div>
-                <div class="col-lg-4 col-md-6">
-                  <input type="number" class="form-control" name="people" id="people" placeholder="# of people" required="">
-                </div>
+                  <div class="col-lg-4 col-md-6">
+                      <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                  </div>
+                
+                  <div class="col-lg-4 col-md-6">
+                      <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+                  </div>
+               
+                  <div class="col-lg-4 col-md-6">
+                      <input type="text" name="phone" class="form-control" placeholder="Your Phone" required>
+                  </div>
+                  
+                  <div class="col-lg-4 col-md-6">
+                    <input type="date" name="date" class="form-control" required>
+                    @error('date')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                  </div>
+                  <div class="col-lg-4 col-md-6">
+                    <input type="time" name="time" class="form-control" required>
+                    @error('time')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                  </div>
+                  <div class="col-lg-4 col-md-6">
+                      <input type="number" name="people" class="form-control" placeholder="# of people" required>
+                  </div>
               </div>
-
+          
               <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" placeholder="Message"></textarea>
+                  <textarea class="form-control" name="message" rows="5" placeholder="Message"></textarea>
               </div>
-
+          
               <div class="text-center mt-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!</div>
-                <button type="submit">Book a Table</button>
+                  <button type="submit">Book a Table</button>
               </div>
-            </form>
+          </form>
+          
           </div><!-- End Reservation Form -->
 
         </div>
